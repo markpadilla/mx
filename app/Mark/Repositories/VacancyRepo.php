@@ -6,7 +6,8 @@ use App\Vacancy;
 
 class VacancyRepo extends AbstractRepo
 {
-    public $title = 'Vacancies';
+    public $title       = 'Vacancies';
+    public $class_name  = 'vacancy';
     
     public function __construct(Vacancy $model)
     {
@@ -20,7 +21,6 @@ class VacancyRepo extends AbstractRepo
             ['name' => 'id', 'label' => __('labels.id')],
             ['name' => 'posted', 'label' => __('labels.posted')],
             ['name' => 'description', 'label' => __('labels.description')],
-            
             ['name' => 'location', 'label' => __('labels.location')],
         ];
         

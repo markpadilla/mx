@@ -77,29 +77,26 @@ class AbstractBaseController extends Controller
 
         $array = json_decode(json_encode((array)$result),1);
     
-        if ($this->model->insert($array)){
-            return redirect()->route($this->route);
+        if (!$this->model->insert($array)){
+            return false;
         }
-
         
-        /*$route      = $this->route.'.parse';
-        $title      = $this->model->title;
-    
-        return view('import', compact('route', 'title'));    */
+        return redirect()->route($this->route);
     }
 
     public function export()
     {
         $data       = $this->model->all();
         $columns    = $this->model->columns;
+        $title      = strtolower($this->model->title);
 
-        return response()->streamDownload(function () use ($data, $columns){
-            $xml = '<?xml version="1.0"?><vacancies>';
+        return response()->streamDownload(function () use ($data, $columns, $title){
+            $xml = '<?xml version="1.0"?><'.$title.'>';
 
             if(count($data)){
                 foreach ($data as $row)
                 {
-                    $xml .= '<vacancy>';
+                    $xml .= '<'.$this->model->class_name.'>';
 
                     foreach($columns as $column)
                     {
@@ -108,11 +105,11 @@ class AbstractBaseController extends Controller
                         $xml .= '</'.$column['name'].'>';
                     }
                     
-                    $xml .= '</vacancy>';
+                    $xml .= '</'.$this->model->class_name.'>';
                 }
             }
 
-            $xml .= '</vacancies>';
+            $xml .= '</'.$title.'>';
             echo $xml;
         }, strtolower($this->model->title).'.xml');
     }

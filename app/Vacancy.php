@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vacancy extends Model
 {
-	public $timestamps = false;
+    public $timestamps = false;
 	
     # FIELD CONF
     public function getPostedConfAttribute()
